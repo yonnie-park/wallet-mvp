@@ -10,8 +10,12 @@ export default function Home() {
   const [walletType, setWalletType] = useState("");
   const [walletAddress, setWalletAddress] = useState("");
   const [balance, setBalance] = useState(0);
+  const [network, setNetwork] = useState("mainnet");
   const handleRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
     setWalletType(e.target.value);
+  };
+  const handleNetworkChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setNetwork(e.target.value);
   };
   const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const inputAddress = e.target.value;
@@ -19,7 +23,7 @@ export default function Home() {
   }, []);
 
   const onSubmitClick = async () => {
-    const ethBalance = await useBalance(walletType, walletAddress);
+    const ethBalance = await useBalance(walletType, walletAddress, network);
     setBalance(ethBalance);
   };
   return (
@@ -41,6 +45,16 @@ export default function Home() {
             Keplr
           </Radio>
         </div>
+        {walletType === `MetaMask` && (
+          <div className={`flex gap-2`}>
+            <Radio value={`goerli`} onChange={handleNetworkChange} checked={network === `goerli`}>
+              goerli
+            </Radio>
+            <Radio value={`mainnet`} onChange={handleNetworkChange} checked={network === `mainnet`}>
+              mainnet
+            </Radio>
+          </div>
+        )}
         <div className={"flex gap-2"}>
           <input type={`text`} placeholder={`input wallet address`} onChange={handleChange} />
           <button type={"submit"} className={`bg-white text-pink`} onClick={() => onSubmitClick()}>
