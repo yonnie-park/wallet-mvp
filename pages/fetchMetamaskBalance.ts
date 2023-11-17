@@ -1,12 +1,9 @@
-import { BaseProvider } from "@ethersproject/providers";
+import { ethers } from "ethers";
 
-export interface FetchMetamaskBalanceProps {
-  provider: BaseProvider;
-  address: string;
-}
-export const fetchMetamaskBalance = async ({ provider, address }: FetchMetamaskBalanceProps) => {
-  const result = await provider.getBalance(address);
-  return {
-    balance: result.toString(),
-  };
+export const fetchMetamaskBalance = async (walletAddress: string) => {
+  const network = `goerli`;
+  const provider = new ethers.InfuraProvider(network);
+  const balance = await provider.getBalance(walletAddress);
+  const ethBalance = Number(balance) / 10 ** 18;
+  return ethBalance;
 };

@@ -17,9 +17,10 @@ export default function Home() {
     const inputAddress = e.target.value;
     setWalletAddress(inputAddress);
   }, []);
-  const onSubmitClick = () => {
-    const balance = useBalance(walletType, walletAddress);
-    setBalance(Number(balance));
+
+  const onSubmitClick = async () => {
+    const ethBalance = await useBalance(walletType, walletAddress);
+    setBalance(ethBalance);
   };
   return (
     <main

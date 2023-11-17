@@ -1,13 +1,12 @@
-import ethers, { EtherscanProvider } from "ethers";
-const useBalance = (walletType: string, walletAddress: string) => {
+import fetchKeplrBalance from "./fetchKeplrBalance";
+import { fetchMetamaskBalance } from "./fetchMetamaskBalance";
+const useBalance = async (walletType: string, walletAddress: string) => {
   if (walletType === "MetaMask") {
-    const network = `goerli`;
-    const provider = ethers.getDefaultProvider(network);
-    const balance = provider.getBalance(walletAddress).then((balance) => {
-      const balancedEth = ethers.utils.formatEther(balance);
-      return balancedEth;
-    });
-    return balance;
+    const ethBalance = await fetchMetamaskBalance(walletAddress);
+    return ethBalance;
+  } else {
+    const keplrBalance = await fetchKeplrBalance(walletAddress);
+    return keplrBalance;
   }
 };
 export default useBalance;
