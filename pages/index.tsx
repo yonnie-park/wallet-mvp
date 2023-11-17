@@ -31,8 +31,7 @@ export default function Home() {
       className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
     >
       <div className={`flex items-center justify-center flex-col gap-2`}>
-        Is Your Wallet FAT?
-        <div className={`flex gap-2 cur`}>
+        <div className={`flex gap-2`}>
           <Radio
             value={"MetaMask"}
             checked={walletType === `MetaMask`}
