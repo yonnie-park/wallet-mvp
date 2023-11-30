@@ -1,12 +1,14 @@
-import fetchKeplrBalance from "./fetchKeplrBalance";
-import { fetchMetamaskBalance } from "./fetchMetamaskBalance";
-const useBalance = async (walletType: string, walletAddress: string, ethNetwork?: string) => {
-  if (walletType === "MetaMask" && ethNetwork) {
-    const ethBalance = await fetchMetamaskBalance(walletAddress, ethNetwork);
-    return ethBalance;
-  } else {
-    const keplrBalance = await fetchKeplrBalance(walletAddress);
-    return keplrBalance;
-  }
+import { useQuery } from "react-query";
+import { fetchMetamaskBalance, fetchKeplrBalance } from "./fetchBalance";
+
+const useBalance = (walletType: string, walletAddress: string) => {
+  return useQuery(["balance", walletType, walletAddress], async () => {
+    if (walletType === "MetaMask") {
+      return fetchMetamaskBalance(walletAddress);
+    } else if (walletType === "Keplr") {
+      return fetchKeplrBalance(walletAddress);
+    }
+  });
 };
+
 export default useBalance;
